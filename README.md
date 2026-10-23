@@ -1,4 +1,4 @@
-# Awais Memon's Homebrew tap
+# Awais's Homebrew tap
 
 macOS apps by [Awais Memon](https://github.com/awaismemon26), installable with [Homebrew](https://brew.sh).
 
@@ -12,7 +12,7 @@ Or add the tap once, then use short names: `brew tap awaismemon26/tap`, then `br
 
 | App | Install | What it is |
 |---|---|---|
-| [Beam](https://github.com/awaismemon26/beam-macos) | `brew install --cask awaismemon26/tap/beam` | Window switcher and launcher |
+| [Beam](https://github.com/awaismemon26/beam-macos) | `brew install --cask awaismemon26/tap/beam` | Window switcher and management |
 
 Update with `brew upgrade --cask <app>`. Uninstall with `brew uninstall --cask <app>`; add `--zap` to also delete
 the app's settings and data.
