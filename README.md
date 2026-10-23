@@ -34,36 +34,9 @@ Formula/<name>.rb     command-line tools, if any are added later
 
 1. Pick a token: the app name in lowercase, with words separated by hyphens (`Beam` → `beam`, `Foo Bar` → `foo-bar`).
    The file name must match it: `Casks/foo-bar.rb`.
-2. Write the cask. Start from `Casks/beam.rb`, or from this template:
-
-   ```ruby
-   cask "foo-bar" do
-     version "1.0.0"
-     sha256 "<sha256 of the download>"
-
-     url "https://github.com/awaismemon26/foo-bar/releases/download/v#{version}/FooBar-#{version}.dmg"
-     name "Foo Bar"
-     desc "One line, no app name, no trailing period"
-     homepage "https://github.com/awaismemon26/foo-bar"
-
-     livecheck do
-       url :url
-       strategy :github_latest
-     end
-
-     depends_on macos: :sequoia
-
-     app "Foo Bar.app"
-
-     zap trash: [
-       "~/Library/Application Support/Foo Bar",
-       "~/Library/Preferences/dev.example.FooBar.plist",
-     ]
-   end
-   ```
-
-   Get the checksum with `shasum -a 256 FooBar-1.0.0.dmg`. If the app isn't notarized, add a `caveats` block with
-   the Open Anyway steps (see `Casks/beam.rb`).
+2. Write the cask: copy `Casks/beam.rb`, or the template below. Get the checksum with
+   `shasum -a 256 FooBar-1.0.0.dmg`. If the app isn't notarized, add a `caveats` block with the Open Anyway steps
+   (see `Casks/beam.rb`).
 3. Add a row to the **Apps** table above.
 4. Check it locally, then push. The **Check** workflow runs the same checks on every push and pull request.
 
@@ -72,6 +45,34 @@ Formula/<name>.rb     command-line tools, if any are added later
    brew style awaismemon26/tap
    brew audit --cask --strict awaismemon26/tap/foo-bar
    ```
+
+### Cask template
+
+```ruby
+cask "foo-bar" do
+  version "1.0.0"
+  sha256 "<sha256 of the download>"
+
+  url "https://github.com/awaismemon26/foo-bar/releases/download/v#{version}/FooBar-#{version}.dmg"
+  name "Foo Bar"
+  desc "One line, no app name, no trailing period"
+  homepage "https://github.com/awaismemon26/foo-bar"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: :sequoia
+
+  app "Foo Bar.app"
+
+  zap trash: [
+    "~/Library/Application Support/Foo Bar",
+    "~/Library/Preferences/dev.example.FooBar.plist",
+  ]
+end
+```
 
 ### New versions
 
