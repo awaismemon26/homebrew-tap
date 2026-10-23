@@ -1,0 +1,39 @@
+# Lints and audits every cask and formula in this tap on each push and pull request.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  check:
+    name: Style and audit
+    runs-on: macos-26
+    permissions:
+      contents: read
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@4790763c0a3ba4036f72634dc079c4a7dfcd4878 # 2026.10.19.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Style
+        run: brew style "${{ steps.set-up-homebrew.outputs.tap-name }}"
+
+      - name: Audit
+        env:
+          TAP_NAME: ${{ steps.set-up-homebrew.outputs.tap-name }}
+        run: |
+          shopt -s nullglob
+          dir="$(brew --repository "$TAP_NAME")"
+          for cask in "$dir"/Casks/*.rb; do brew audit --cask --strict "$TAP_NAME/$(basename "$cask" .rb)"; done
+          for formula in "$dir"/Formula/*.rb; do brew audit --formula --strict "$TAP_NAME/$(basename "$formula" .rb)"; done
